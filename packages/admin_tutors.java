@@ -280,6 +280,8 @@ public class admin_tutors extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		delete_tutors tutframe = new delete_tutors();
         		tutframe.setVisible(true);
+        		updateCourseTable() ;
+
         	}
         });
         Delete_Course.setBounds(847, 206, 120, 25);
@@ -373,5 +375,9 @@ public class admin_tutors extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace(); // Print the exception details to console
         }
+    }
+    private void updateCourseTable() {
+        // Fetch the latest course data from the database and update the table
+    	fetchTeacherData();
     }
 }
