@@ -266,6 +266,11 @@ public class admin_tutors extends JFrame {
         contentPane.add(ADD_TUTORS);
         
         JButton Edit_course = new JButton("Edit Tutors");
+        Edit_course.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
         Edit_course.setBounds(733, 206, 100, 25);
         Edit_course.setFont(new Font("Tahoma", Font.PLAIN, 13));
         contentPane.add(Edit_course); 
@@ -284,19 +289,19 @@ public class admin_tutors extends JFrame {
                 
         tableModel = new DefaultTableModel(
                 new Object[][] {},
-                new String[] {"Username", "Email", "Phone number"}
+                new String[] {"Tutor ID","Username", "Email", "Phone number"}
             );
 
         table = new JTable(new DefaultTableModel(
         	    new Object[][] {
-        	        {null, null, null},
-        	        {null, null, null},
-        	        {null, null, null},
-        	        {null, null, null},
-        	        {null, null, null},
+        	        {null, null, null, null},
+        	        {null, null, null, null},
+        	        {null, null, null, null},
+        	        {null, null, null, null},
+        	        {null, null, null, null},
         	    },
         	    new String[] {
-        	        "Tutor Name", "Email", "Phone Number"
+        	        "Tutors ID","Tutor Name", "Email", "Phone Number"
         	    }
         	));
         table.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -349,7 +354,7 @@ public class admin_tutors extends JFrame {
         String password = "";
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String sql = "SELECT username, email, number FROM teacher";
+            String sql = "SELECT id,username, email, number FROM teacher";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
@@ -358,6 +363,7 @@ public class admin_tutors extends JFrame {
 
             while (resultSet.next()) {
                 Vector<Object> row = new Vector<>();
+                row.add(resultSet.getInt("id"));
                 row.add(resultSet.getString("username"));
                 row.add(resultSet.getString("email"));
                 row.add(resultSet.getString("number"));
