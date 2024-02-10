@@ -257,17 +257,24 @@ public class admin_student extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Create an instance of the Result class
                 Result resultFrame = new Result();
-                
-                // Set the visibility of the Result frame to true
                 resultFrame.frame.setVisible(true);
+                
             }
         });
 
+        
         ADD_TUTORS.setBounds(850, 206, 140, 25);
         ADD_TUTORS.setFont(new Font("Tahoma", Font.PLAIN, 13));
         contentPane.add(ADD_TUTORS);
         
         JButton Edit_course = new JButton("Edit Students");
+        Edit_course.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	new edit_student().frame.setVisible(true);
+        	fetchStudentData();
+        	
+        	}
+        });
         Edit_course.setBounds(733, 206, 110, 25);
         Edit_course.setFont(new Font("Tahoma", Font.PLAIN, 13));
         contentPane.add(Edit_course); 
@@ -277,8 +284,10 @@ public class admin_student extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		delete_student tutframe = new delete_student();
         		tutframe.setVisible(true);
+        		fetchStudentData() ;        		
         	}
         });
+        
         Delete_Course.setBounds(605, 206, 125, 25);
         Delete_Course.setFont(new Font("Tahoma", Font.PLAIN, 13));
         contentPane.add(Delete_Course);
@@ -286,19 +295,19 @@ public class admin_student extends JFrame {
                 
         tableModel = new DefaultTableModel(
                 new Object[][] {},
-                new String[] {"Username", "Email", "Phone number", "course"}
+                new String[] {"id","Username", "Email", "Phone number", "course"}
             );
 
         table = new JTable(new DefaultTableModel(
         	    new Object[][] {
-        	        {null, null, null, null},
-        	        {null, null, null, null},
-        	        {null, null, null, null},
-        	        {null, null, null, null},
-        	        {null, null, null, null},
+        	        {null, null, null, null,null},
+        	        {null, null, null, null,null},
+        	        {null, null, null, null,null},
+        	        {null, null, null, null,null},
+        	        {null, null, null, null,null},
         	    },
         	    new String[] {
-        	        "Username", "Email", "Phone number","course"
+        	       "id", "Username", "Email", "Phone number","course"
         	    }
         	));
         table.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -309,7 +318,7 @@ public class admin_student extends JFrame {
         		new Object[][] {
         		},
         		new String[] {
-        			"Username", "Email", "Phone number", "course"
+             	      "id", "Username", "Email", "Phone number","course"
         		}
         	));
             table.setModel(tableModel); // Set the table model
@@ -322,9 +331,9 @@ public class admin_student extends JFrame {
         	contentPane.add(scrollPane);
         	getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        	fetchTeacherData(); 
-        
-        JLabel lblNewLabel_1_1_3 = new JLabel("Search for Tutors");
+        	fetchStudentData() ;
+        	
+        JLabel lblNewLabel_1_1_3 = new JLabel("Search for Students");
         lblNewLabel_1_1_3.setBounds(250, 185, 180, 20);
         lblNewLabel_1_1_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
         contentPane.add(lblNewLabel_1_1_3);
@@ -339,8 +348,8 @@ public class admin_student extends JFrame {
         Delete_Course_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
         Delete_Course_1.setBounds(515, 208, 78, 23);
         contentPane.add(Delete_Course_1);
-
     }
+    
     private void filterTable(String searchText) {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) table.getModel());
         table.setRowSorter(sorter);
@@ -351,14 +360,15 @@ public class admin_student extends JFrame {
         }
     }
     
-    private void fetchTeacherData() {
+    
+    private void fetchStudentData() {
         // Database connection parameters
         String url = "jdbc:mysql://localhost:3306/final_assessment";
         String username = "root";
         String password = "";
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            String sql = "SELECT username, email, phone,course FROM student";
+            String sql = "SELECT id,username, email, phone,course FROM student";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
@@ -367,6 +377,7 @@ public class admin_student extends JFrame {
 
             while (resultSet.next()) {
                 Vector<Object> row = new Vector<>();
+                row.add(resultSet.getInt("id"));
                 row.add(resultSet.getString("username"));
                 row.add(resultSet.getString("email"));
                 row.add(resultSet.getString("phone"));
@@ -379,4 +390,5 @@ public class admin_student extends JFrame {
             e.printStackTrace(); // Print the exception details to console
         }
     }
+    
 }
