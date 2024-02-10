@@ -24,12 +24,12 @@ public class edit_tutors extends JFrame{
 
 	protected JFrame frame;
 	private JTextField id;
-	private JTextField Course_name;
-	private JTextField seat;
-	private JTextField batch;
+	private JTextField tutors_name;
+	private JTextField email;
+	private JTextField password;
 	private Database database;
 	private JLabel lblNewLabel_1_3;
-	private JTextField years;
+	private JTextField number;
 	private JLabel lblNewLabel_3;
 
 	/**
@@ -39,7 +39,7 @@ public class edit_tutors extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Edit window = new Edit();
+					edit_tutors window = new edit_tutors();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,12 +76,12 @@ public class edit_tutors extends JFrame{
 		frame.getContentPane().add(id);
 		id.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Seats");
+		JLabel lblNewLabel_1 = new JLabel("Email");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1.setBounds(66, 240, 105, 22);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Batch");
+		JLabel lblNewLabel_1_1 = new JLabel("Password");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_1.setBounds(66, 304, 105, 22);
 		frame.getContentPane().add(lblNewLabel_1_1);
@@ -90,11 +90,7 @@ public class edit_tutors extends JFrame{
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				editStudent();
-				dispose(); // Close the current JFrame
-
-				new admin_course().setVisible(true);
-				dispose();
+				editTutors();
 				
 		}
 		});
@@ -113,74 +109,74 @@ public class edit_tutors extends JFrame{
 		lblNewLabel_2.setBounds(83, 0, 221, 45);
 		panel.add(lblNewLabel_2);
 		
-		Course_name = new JTextField();
-		Course_name.setColumns(10);
-		Course_name.setBackground(UIManager.getColor("Button.background"));
-		Course_name.setBounds(66, 197, 261, 20);
-		frame.getContentPane().add(Course_name);
+		tutors_name = new JTextField();
+		tutors_name.setColumns(10);
+		tutors_name.setBackground(UIManager.getColor("Button.background"));
+		tutors_name.setBounds(66, 197, 261, 20);
+		frame.getContentPane().add(tutors_name);
 		
-		seat = new JTextField();
-		seat.setColumns(10);
-		seat.setBackground(UIManager.getColor("Button.background"));
-		seat.setBounds(66, 259, 261, 20);
-		frame.getContentPane().add(seat);
+		email = new JTextField();
+		email.setColumns(10);
+		email.setBackground(UIManager.getColor("Button.background"));
+		email.setBounds(66, 259, 261, 20);
+		frame.getContentPane().add(email);
 		
-		batch = new JTextField();
-		batch.setColumns(10);
-		batch.setBackground(UIManager.getColor("Button.background"));
-		batch.setBounds(66, 324, 261, 20);
-		frame.getContentPane().add(batch);
+		password = new JTextField();
+		password.setColumns(10);
+		password.setBackground(UIManager.getColor("Button.background"));
+		password.setBounds(66, 324, 261, 20);
+		frame.getContentPane().add(password);
 		
-		lblNewLabel_1_3 = new JLabel("years");
+		lblNewLabel_1_3 = new JLabel("Number");
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_3.setBounds(66, 371, 105, 22);
 		frame.getContentPane().add(lblNewLabel_1_3);
 		
-		years = new JTextField();
-		years.setColumns(10);
-		years.setBackground(UIManager.getColor("Button.background"));
-		years.setBounds(66, 390, 261, 20);
-		frame.getContentPane().add(years);
+		number = new JTextField();
+		number.setColumns(10);
+		number.setBackground(UIManager.getColor("Button.background"));
+		number.setBounds(66, 390, 261, 20);
+		frame.getContentPane().add(number);
 		
-		lblNewLabel_3 = new JLabel("Course Name");
+		lblNewLabel_3 = new JLabel("Tutors Name");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_3.setBounds(66, 177, 105, 22);
 		frame.getContentPane().add(lblNewLabel_3);
 	}
 	
-	private void editStudent() {
+	private void editTutors() {
 	    try {
 	        // Get the existing connection from the database
 	        Connection connection = database.getConnection();
 
 	        // Logic to edit a student using the existing database connection
-	        String sql = "UPDATE student SET username = ?, batch = ?, course_enrolled = ? WHERE id = ?";
+	        String sql = "UPDATE teacher SET username = ?, email = ?, passwrd = ?, number = ? WHERE id = ?";
 	        PreparedStatement statement = connection.prepareStatement(sql);
 
 	        // Convert text from JTextFields to appropriate data types
-	        int batchValue = Integer.parseInt(batch.getText());
-	        int studentIDValue = Integer.parseInt(id.getText()); // Assuming id is the JTextField for Student ID
+	        int teacherIDValue = Integer.parseInt(id.getText()); // Assuming id is the JTextField for Teacher ID
 
 	        // Set parameters in the prepared statement
-	        statement.setString(1, Course_name.getText()); // Assuming Course_name JTextField holds student name
-	        statement.setInt(2, batchValue);
-	        statement.setString(3, seat.getText()); // Assuming seat JTextField holds course enrolled
-	        statement.setInt(4, studentIDValue); // Set the student ID parameter
+	        statement.setString(1, tutors_name.getText()); // Assuming Course_name JTextField holds teacher name
+	        statement.setString(2, email.getText()); // Assuming email JTextField holds teacher email
+	        statement.setString(3, password.getText()); // Assuming passwrd JTextField holds teacher password
+	        statement.setString(4, number.getText()); // Assuming number JTextField holds teacher number
+	        statement.setInt(5, teacherIDValue); // Set the teacher ID parameter
 
 	        int rowsUpdated = statement.executeUpdate();
 	        if (rowsUpdated > 0) {
-	            JOptionPane.showMessageDialog(frame, "Student information updated successfully!");
+	            JOptionPane.showMessageDialog(frame, "Teacher information updated successfully!");
 	        } else {
-	            JOptionPane.showMessageDialog(frame, "Failed to update student information.");
+	            JOptionPane.showMessageDialog(frame, "Failed to update teacher information.");
 	        }
 
 	        statement.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        JOptionPane.showMessageDialog(frame, "Error updating student information: " + e.getMessage());
+	        JOptionPane.showMessageDialog(frame, "Error updating teacher information: " + e.getMessage());
 	    } catch (NumberFormatException e) {
 	        // Handle if the user enters non-integer values in the JTextFields
-	        JOptionPane.showMessageDialog(frame, "Please enter valid integer values for Batch and Student ID.");
+	        JOptionPane.showMessageDialog(frame, "Please enter valid integer values for Teacher ID.");
 	    }
 	}
 
