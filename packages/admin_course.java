@@ -261,6 +261,7 @@ public class admin_course extends JFrame {
                 } else {         
                     addCourse(database);
                 }
+                updateCourseTable();
             }
         });
         
@@ -465,6 +466,11 @@ public class admin_course extends JFrame {
             e.printStackTrace();
             System.out.println("Error parsing integers: " + e.getMessage());
         }
+    }
+    
+    private void updateCourseTable() {
+        // Fetch the latest course data from the database and update the table
+    	fetchcourseData();
     }
 
     
