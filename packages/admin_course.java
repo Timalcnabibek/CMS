@@ -471,8 +471,5 @@ public class admin_course extends JFrame {
     private void updateCourseTable() {
         // Fetch the latest course data from the database and update the table
     	fetchcourseData();
-    }
-
-    
-        
+    }       
 }
